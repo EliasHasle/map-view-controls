@@ -1,5 +1,3 @@
-"use strict";
-
 //By Elias Hasle. Adapted from a vessel.js demo (also by Elias Hasle)
 
 //The argument is a THREE.OrthographicCamera
