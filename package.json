@@ -1,0 +1,20 @@
+{
+	"bugs": {
+	"url": "https://github.com/EliasHasle/map-view-controls/issues"
+	},
+	"bundleDependencies": false,
+	"deprecated": false,
+	"description": "Mouse control for THREE.OrthographicCamera that conserves planar pointer position while zooming",
+	"homepage": "https://github.com/EliasHasle/map-view-controls#readme",
+	"main": "./map-view-controls.js",
+	"name": "map-view-controls",
+	"repository": {
+	"type": "git",
+	"url": "git+https://github.com/EliasHasle/map-view-control.git"
+	},
+	"scripts": {
+	"build": "rollup -c"
+	},
+	"type": "module",
+	"version": "0.0.1"
+}
