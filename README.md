@@ -7,4 +7,4 @@ map-view-controls.js is an ES6 module.
 
 build/MapViewControls is an UMD module.
 
-No example included yet...
+A world map example is now available.
