@@ -1,0 +1,60 @@
+<!doctype html>
+
+<html>
+<head>
+<title>Map view controls example</title>
+</head>
+
+<body>
+<script src="libs/three.js"></script>
+<script src="../build/MapViewControls.js"></script>
+
+<script>
+var container, renderer, scene, camera, controls;
+
+const MapViewControls = window['map-view-controls'].MapViewControls;
+
+(function init(){
+	container = document.createElement("div");
+	Object.assign(container.style, {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "100vw",
+		height: "100vh"
+	});
+	document.body.appendChild(container);
+	
+	renderer = new THREE.WebGLRenderer({antialias: true});
+	renderer.setSize(container.clientWidth, container.clientHeight);
+	container.appendChild(renderer.domElement);
+	
+	scene = new THREE.Scene();
+	
+	/*let gh = new THREE.GridHelper(5000, 500);
+	gh.rotation.x = -0.5*Math.PI;
+	scene.add(gh);*/
+
+	//Texture from Tom Patterson, http://www.shadedrelief.com/natural3/pages/textures.html
+	let worldMap = new THREE.TextureLoader().load("textures/1_earth_8k.jpg");
+	let mapPlane = new THREE.Mesh(new THREE.PlaneBufferGeometry(8192, 4096, 1, 1), new THREE.MeshBasicMaterial({map: worldMap}));
+	scene.add(mapPlane);
+	
+	camera = new THREE.OrthographicCamera();
+	controls = new MapViewControls(camera, renderer.domElement, {
+		minX: -4096,
+		maxX: 4096,
+		minY: -2048,
+		maxY: 2048	
+	});
+	
+	requestAnimationFrame(function animate(mt) {
+		requestAnimationFrame(animate);
+		renderer.render(scene, camera);	
+	});
+})();
+</script>
+
+</body>
+
+</html>

@@ -13,16 +13,17 @@
 	function MapViewControls(oCamera, domElement, /*renderer, */preset) {
 		Object.assign(this, {
 			HMAX: 600,
-			minX: -50,
-			maxX: 850,
-			minY: -50,
-			maxY: 650,
-			mouseX: 0,
-			mouseY: 0,
-			scale: 1.0,
-			offsetX: 0,
-			offsetY: 0,
+			minX: -800,
+			maxX: 800,
+			minY: -600,
+			maxY: 600,
+			//offsetX: 0,
+			//offsetY: 0,
 		}, preset || {});
+		
+		this.mouseX = 0;
+		this.mouseY = 0;
+		this.scale = 1.0;
 		
 		this.oCamera = oCamera;
 		this.domElement = domElement;
@@ -56,6 +57,8 @@
 							//optional parameters
 							//wheel is wheel rotation direction, -1,0 or 1.
 		update: function(wheel=0) {
+			if (wheel === 0) return;
+			
 			let width = this.domElement.clientWidth;
 			let height = this.domElement.clientHeight;
 			//this.renderer.setSize(width,height);
@@ -68,19 +71,14 @@
 			let oScale = this.scale;
 			this.scale *= factor;
 			let convFactor = (this.maxX-this.minX)/width;
-			let relMouseX = convFactor*(this.mouseX);
+			let relMouseX = convFactor*(this.mouseX-0.5*width);
 			let relMouseY = convFactor*(this.mouseY-0.5*height);
-			if (wheel != 0) {
-				// this.offsetX += relMouseX*oScale*(1-factor);
-				this.oCamera.position.x += relMouseX*oScale*(1-factor);
-				// this.offsetY -= relMouseY*oScale*(1-factor);
-				this.oCamera.position.y -= relMouseY*oScale*(1-factor);
-			}
-			// this.offsetX = Math.min(this.maxX, Math.max(this.minX, this.offsetX));
-			this.oCamera.position.x = Math.min(this.maxX, Math.max(this.minX, this.oCamera.position.x));
-			// this.offsetY = Math.min(this.maxY, Math.max(this.minY, this.offsetY));
-			this.oCamera.position.y = Math.min(this.maxY, Math.max(this.minY, this.oCamera.position.y));
 			
+			this.oCamera.position.x += relMouseX*oScale*(1-factor);
+			this.oCamera.position.y -= relMouseY*oScale*(1-factor);
+			this.oCamera.position.x = Math.min(this.maxX, Math.max(this.minX, this.oCamera.position.x));
+			this.oCamera.position.y = Math.min(this.maxY, Math.max(this.minY, this.oCamera.position.y));
+		
 			//Configures camera
 			let maxWidth = (this.maxX-this.minX);
 			Object.assign(this.oCamera, {
