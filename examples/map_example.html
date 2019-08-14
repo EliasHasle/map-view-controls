@@ -35,8 +35,9 @@ const MapViewControls = window['map-view-controls'].MapViewControls;
 	gh.rotation.x = -0.5*Math.PI;
 	scene.add(gh);*/
 
-	//Texture from Tom Patterson, http://www.shadedrelief.com/natural3/pages/textures.html
-	let worldMap = new THREE.TextureLoader().load("textures/1_earth_8k.jpg");
+	//Texture based on one from Tom Patterson, http://www.shadedrelief.com/natural3/pages/textures.html
+	//Subsequently heavily compressed
+	let worldMap = new THREE.TextureLoader().load("textures/4_no_ice_clouds_mts_8k_compressed.jpg");
 	let mapPlane = new THREE.Mesh(new THREE.PlaneBufferGeometry(8192, 4096, 1, 1), new THREE.MeshBasicMaterial({map: worldMap}));
 	scene.add(mapPlane);
 	
