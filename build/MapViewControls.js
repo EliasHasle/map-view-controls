@@ -54,10 +54,13 @@
 			
 			//apply wheel scroll
 			let base = 1.1;
-			let factor = Math.min(2/this.scale, Math.max(0.001/this.scale,base**wheel));
+			let factor = Math.min(10/this.scale, Math.max(0.001/this.scale,base**wheel));
 			let oScale = this.scale;
 			this.scale *= factor;
-			let convFactor = (this.maxX-this.minX)/width;
+			let convFactor = Math.min(
+				(this.maxX-this.minX)/width,
+				(this.maxY-this.minY)/height
+			);
 			let relMouseX = convFactor*(this.mouseX-0.5*width);
 			let relMouseY = convFactor*(this.mouseY-0.5*height);
 			
