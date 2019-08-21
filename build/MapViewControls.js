@@ -25,14 +25,14 @@
 		
 		oCamera.position.z = Math.max(oCamera.position.z, this.HMAX);
 		Object.assign(oCamera, {
-			left: this.minX!==undefined ? this.minX : oCamera.left,
+			/*left: this.minX!==undefined ? this.minX : oCamera.left,
 			right: this.maxX!==undefined ? this.maxX : oCamera.right,
 			top: this.maxY!==undefined ? this.maxY : oCamera.top,
 			bottom: this.minY!==undefined ? this.minY : oCamera.bottom,
-			near: 0,
+			near: 0,*/
 			far: oCamera.position.z
 		});
-		oCamera.updateProjectionMatrix();
+		//oCamera.updateProjectionMatrix();
 		
 		let scope = this;
 
@@ -42,7 +42,9 @@
 			//console.log("Wheel event.");
 			scope.mouseX = e.offsetX;//e.clientX;
 			scope.mouseY = e.offsetY;//e.clientY;
-			scope.update.call(scope, e.deltaY>0 ? 1 : e.deltaY<0 ? -1 : 0);
+			if (e.deltaY) {
+				scope.update.call(scope, e.deltaY>0 ? 1 : e.deltaY<0 ? -1 : 0);
+			}
 		};
 		
 		this.enable();
@@ -54,8 +56,6 @@
 		//This function updates the orthographic camera
 		//wheel is wheel rotation direction, -1,0 or 1.
 		update: function(wheel=0) {
-			if (!wheel) return;
-			
 			let width = this.domElement.clientWidth;
 			let height = this.domElement.clientHeight;
 			
