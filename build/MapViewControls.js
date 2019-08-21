@@ -25,10 +25,10 @@
 		
 		oCamera.position.z = Math.max(oCamera.position.z, this.HMAX);
 		Object.assign(oCamera, {
-			left: minX,
-			right: maxX,
-			top: maxY,
-			bottom: minY,
+			left: minX!==undefined ? minX : oCamera.left,
+			right: maxX!==undefined ? maxX : oCamera.right,
+			top: maxY!==undefined ? maxY : oCamera.top,
+			bottom: minY!==undefined ? minY : oCamera.bottom,
 			near: 0,
 			far: oCamera.position.z
 		});
