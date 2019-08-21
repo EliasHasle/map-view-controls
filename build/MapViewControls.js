@@ -24,6 +24,8 @@
 		this.domElement = domElement;
 		
 		oCamera.position.z = Math.max(oCamera.position.z, this.HMAX);
+		oCamera.far = Math.max(this.HMAX, oCamera.far);
+		oCamera.updateProjectionMatrix();
 		
 		let scope = this;
 
