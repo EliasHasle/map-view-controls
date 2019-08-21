@@ -18,7 +18,14 @@ function MapViewControls(oCamera, domElement, preset) {
 	this.domElement = domElement;
 	
 	oCamera.position.z = Math.max(oCamera.position.z, this.HMAX);
-	oCamera.far = Math.max(this.HMAX+1, oCamera.far);
+	Object.assign(oCamera, {
+		left: minX,
+		right: maxX,
+		top: maxY,
+		bottom: minY,
+		near: 0,
+		far: oCamera.position.z
+	});
 	oCamera.updateProjectionMatrix();
 	
 	let scope = this;
