@@ -10,11 +10,11 @@
 	"name": "map-view-controls",
 	"repository": {
 	"type": "git",
-	"url": "git+https://github.com/EliasHasle/map-view-control.git"
+	"url": "git+https://github.com/EliasHasle/map-view-controls.git"
 	},
 	"scripts": {
 	"build": "rollup -c"
 	},
 	"type": "module",
-	"version": "0.0.10"
+	"version": "0.0.11"
 }

@@ -1,5 +1,7 @@
 //By Elias Hasle. Adapted from a vessel.js demo (also by Elias Hasle)
 
+//To do: Pan with mouse drag
+
 //The argument is a THREE.OrthographicCamera
 function MapViewControls(oCamera, domElement, preset) {
 	Object.assign(this, {
@@ -18,15 +20,7 @@ function MapViewControls(oCamera, domElement, preset) {
 	this.domElement = domElement;
 	
 	oCamera.position.z = Math.max(oCamera.position.z, this.HMAX);
-	Object.assign(oCamera, {
-		/*left: this.minX!==undefined ? this.minX : oCamera.left,
-		right: this.maxX!==undefined ? this.maxX : oCamera.right,
-		top: this.maxY!==undefined ? this.maxY : oCamera.top,
-		bottom: this.minY!==undefined ? this.minY : oCamera.bottom,
-		near: 0,*/
-		far: oCamera.position.z
-	});
-	//oCamera.updateProjectionMatrix();
+	oCamera.far = oCamera.position.z;
 	
 	let scope = this;
 
