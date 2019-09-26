@@ -32,10 +32,14 @@ function MapViewControls(oCamera, domElement, preset) {
 	}
 	
 	this.onMouseDown = e => {
-		this.mouseDown = true;
+		if (e.button === 0) {
+			this.mouseDown = true;
+		}
 	}
 	this.onMouseUp = e => {
-		this.mouseDown = false;
+		if (e.button === 0) {
+			this.mouseDown = false;
+		}
 	}
 	this.onMouseMove = e => {
 		if (this.mouseDown) {
@@ -99,13 +103,14 @@ Object.assign(MapViewControls.prototype, {
 	enable() {
 		this.domElement.addEventListener("wheel", this.onWheel);
 		this.domElement.addEventListener("mousedown", this.onMouseDown);
-		this.domElement.addEventListener("mouseup", this.onMouseUp);
+		window.addEventListener("mouseup", this.onMouseUp);
 		this.domElement.addEventListener("mousemove", this.onMouseMove);
 		this.update();
 	},
 	disable() {
 		this.domElement.removeEventListener("wheel", this.onWheel);
 		this.domElement.removeEventListener("mousedown", this.onMouseDown);
+		window.removeEventListener("mouseup", this.onMouseUp);
 		this.domElement.removeEventListener("mousemove", this.onMousemove);
 	}
 });
