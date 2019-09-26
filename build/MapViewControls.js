@@ -6,6 +6,8 @@
 
 	//By Elias Hasle. Adapted from a vessel.js demo (also by Elias Hasle)
 
+	//To do: Pan with mouse drag
+
 	//The argument is a THREE.OrthographicCamera
 	function MapViewControls(oCamera, domElement, preset) {
 		Object.assign(this, {
@@ -24,26 +26,39 @@
 		this.domElement = domElement;
 		
 		oCamera.position.z = Math.max(oCamera.position.z, this.HMAX);
-		Object.assign(oCamera, {
-			/*left: this.minX!==undefined ? this.minX : oCamera.left,
-			right: this.maxX!==undefined ? this.maxX : oCamera.right,
-			top: this.maxY!==undefined ? this.maxY : oCamera.top,
-			bottom: this.minY!==undefined ? this.minY : oCamera.bottom,
-			near: 0,*/
-			far: oCamera.position.z
-		});
-		//oCamera.updateProjectionMatrix();
-		
-		let scope = this;
+		oCamera.far = oCamera.position.z;
 
 		//Read mouse wheel input:	
-		this.onWheel = function(e) {
+		this.onWheel = e => {
 			e.preventDefault();
 			//console.log("Wheel event.");
-			scope.mouseX = e.offsetX;//e.clientX;
-			scope.mouseY = e.offsetY;//e.clientY;
+			this.mouseX = e.offsetX;//e.clientX;
+			this.mouseY = e.offsetY;//e.clientY;
 			if (e.deltaY) {
-				scope.update.call(scope, e.deltaY>0 ? 1 : e.deltaY<0 ? -1 : 0);
+				this.update(e.deltaY>0 ? 1 : e.deltaY<0 ? -1 : 0);
+			}
+		};
+		
+		this.onMouseDown = e => {
+			this.mouseDown = true;
+		};
+		this.onMouseUp = e => {
+			this.mouseDown = false;
+		};
+		this.onMouseMove = e => {
+			if (this.mouseDown) {
+				e.preventDefault();
+				
+				let width = this.domElement.clientWidth;
+				let height = this.domElement.clientHeight;
+				
+				let convFactor = Math.min(
+					(this.maxX-this.minX)/width,
+					(this.maxY-this.minY)/height
+				);
+				
+				this.oCamera.position.x -= e.movementX*convFactor*this.scale;
+				this.oCamera.position.y += e.movementY*convFactor*this.scale;
 			}
 		};
 		
@@ -91,14 +106,15 @@
 		},
 		enable() {
 			this.domElement.addEventListener("wheel", this.onWheel);
-			// this.domElement.addEventListener("mousedown", this.onMousedown);
-			// this.domElement.addEventListener("mouseup", this.onMouseup);
+			this.domElement.addEventListener("mousedown", this.onMouseDown);
+			this.domElement.addEventListener("mouseup", this.onMouseUp);
+			this.domElement.addEventListener("mousemove", this.onMouseMove);
 			this.update();
 		},
 		disable() {
 			this.domElement.removeEventListener("wheel", this.onWheel);
-			// this.domElement.removeEventListener("mousedown", this.onMousedown);
-			// this.domElement.removeEventListener("mouseup", this.onMouseup);
+			this.domElement.removeEventListener("mousedown", this.onMouseDown);
+			this.domElement.removeEventListener("mousemove", this.onMousemove);
 		}
 	});
 
