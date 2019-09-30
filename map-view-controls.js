@@ -8,11 +8,16 @@ function MapViewControls(oCamera, domElement, preset) {
 		maxX: 800,
 		minY: -600,
 		maxY: 600,
+		panButton: 0,
 	}, preset || {});
 	
 	this.mouseX = 0;
 	this.mouseY = 0;
 	this.scale = 1.0;
+	
+	if (this.panButton === 2) {
+		console.warn("It is not recommended to use the scroll wheel button for panning.");
+	}
 	
 	this.oCamera = oCamera;
 	this.domElement = domElement;
@@ -32,17 +37,17 @@ function MapViewControls(oCamera, domElement, preset) {
 	}
 	
 	this.onMouseDown = e => {
-		if (e.button === 0) {
-			this.mouseDown = true;
+		if (e.button === this.panButton) {
+			this.dragging = true;
 		}
 	}
 	this.onMouseUp = e => {
-		if (e.button === 0) {
-			this.mouseDown = false;
+		if (e.button === this.panButton) {
+			this.dragging = false;
 		}
 	}
 	this.onMouseMove = e => {
-		if (this.mouseDown) {
+		if (this.dragging) {
 			e.preventDefault();
 			
 			let width = this.domElement.clientWidth;
